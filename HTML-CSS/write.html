@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UFT-8"/>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <title>공지등록</title>
+        <link rel="stylesheet" href="./css/index.css"/>
+    </head>
+    <body>
+
+        <!-- 전체 공지 등록화면 영역  -->
+        <div class="board_wrap">
+
+            <!-- 페이지 제목 표시영역 -->
+            <div class="board_title">
+                <strong>공지사항</strong>
+                <p>공지사항을 등록합니다.</p>
+            </div>
+
+            <!-- 공지등록 화면 영역 -->
+            <div class="board_write_wrap">
+
+                <!-- 사용자 공지입력요소 표시영역 -->
+                <div  class="board_write">
+
+                    <!-- 제목입력영역 -->
+                    <div class="title">
+                        <dl>
+                            <dt>제목</dt>
+                            <dd><input type="text" placeholder="제목"/></dd>
+                        </dl>
+                    </div>
+
+                    <!-- 글쓴이-비밀번호 입력영역 -->
+                    <div class="info">
+                        <dl>
+                            <dt>글쓴이</dt>
+                            <dd><input type="text" placeholder="글쓴이"/></dd>
+                        </dl>
+                        <dl>
+                            <dt>비밀번호</dt>
+                            <dd><input type="password" placeholder="비밀번호"/></dd>
+                        </dl>
+                    </div>
+
+                    <!-- 글내용입력영역 -->
+                    <div class="cont">
+                        <textarea placeholder="글내용"></textarea>
+                    </div>
+                </div>
+
+                <!-- 저장/목록이동 버튼표시영역 -->
+                <div class="bt_wrap">
+                    <a href="./view.html" class="on">등록</a>
+                    <a href="./list.html">취소</a>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

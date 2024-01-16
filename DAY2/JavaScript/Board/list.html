@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공지사항</title>
+    <link rel="stylesheet" href="css/css.css" />
+  </head>
+  <body>
+    <div class="board_wrap">
+      <div class="board_title">
+        <strong>게시글 목록</strong>
+      </div>
+
+      <div class="board_list_wrap">
+        <div class="board_list" id="list">
+          <div class="top">
+            <div class="num">번호</div>
+            <div class="title">제목</div>
+            <div class="writer">글쓴이</div>
+            <div class="date">작성일</div>
+            <div class="count">조회</div>
+          </div>
+
+          <!-- <div>
+            <div class="num">1</div>
+            <div class="title"><a href="view.html">글 제목입니다.</a></div>
+            <div class="writer">강창훈</div>
+            <div class="date">2023.03.01</div>
+            <div class="count">15</div>
+          </div> -->
+        </div>
+        <div class="board_page">
+          <a href="#" class="bt first"><<</a>
+          <a href="#" class="bt prev"><</a>
+          <a href="#" class="num on">1</a>
+          <a href="#" class="num">2</a>
+          <a href="#" class="num">3</a>
+          <a href="#" class="num">4</a>
+          <a href="#" class="num">5</a>
+          <a href="#" class="bt next">></a>
+          <a href="#" class="bt last">>></a>
+        </div>
+        <div class="bt_wrap">
+          <a href="write.html" class="on">등록</a>
+          <!--<a href="#">수정</a>-->
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        //전체 게시글 목록 조회 후 결과값을 동적으로 tr태그를 생성함
+        $.get("http://edu.msoftware.co.kr/api/articles", function (data) {
+          console.log("백엔드에서 전달된 전체게시글 목록보기:", data);
+
+          $.each(data, function (index, rowData) {
+            var articleDiv = `<div>
+              <div class="num">${rowData.ArticleIDX}</div>
+              <div class="title"><a href="view.html?aidx=${rowData.ArticleIDX}">${rowData.Title}</a></div>
+              <div class="writer">${rowData.RegistUserID}</div>
+              <div class="date">${rowData.RegistDate}</div>
+              <div class="count">${rowData.ViewCount}</div>
+            </div>`;
+
+            $("#list").append(articleDiv);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

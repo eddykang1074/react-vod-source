@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공지사항</title>
+    <link rel="stylesheet" href="css/css.css" />
+  </head>
+  <body>
+    <div class="board_wrap">
+      <div class="board_title">
+        <strong>공지사항</strong>
+        <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+      </div>
+      <div class="board_write_wrap">
+        <div class="board_write">
+          <div class="title">
+            <dl>
+              <dt>제목</dt>
+              <dd>
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="제목 입력"
+                  value=""
+                />
+              </dd>
+            </dl>
+          </div>
+          <div class="info">
+            <dl>
+              <dt>글쓴이</dt>
+              <dd>
+                <input
+                  type="text"
+                  id="writer"
+                  placeholder="글쓴이 입력"
+                  value=""
+                />
+              </dd>
+            </dl>
+            <dl>
+              <dt>비밀번호</dt>
+              <dd>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="비밀번호 입력"
+                  value=""
+                />
+              </dd>
+            </dl>
+          </div>
+          <div class="cont">
+            <textarea placeholder="내용 입력" id="contents"></textarea>
+          </div>
+        </div>
+        <div class="bt_wrap">
+          <a href="#" class="on" onclick="fnArticleModify();">수정</a>
+          <a href="view.html">취소</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <script>
+      //현재 웹페이지의 주소에서 전달되는 쿼리스트링 키의 값을 추출하는 함수정의
+      function getQueryString(keyName) {
+        var results = new RegExp("[\?&]" + keyName + "=([^&#]*)").exec(
+          window.location.href
+        );
+        return results[1] || 0;
+      }
+
+      //URL에서 전달된 게시글 고유키값 조회하기
+      var articleIdx = getQueryString("aidx");
+
+      $(document).ready(function () {
+        $.get(
+          "http://edu.msoftware.co.kr/api/article?idx=" + articleIdx,
+          function (article) {
+            console.log(
+              "백엔드에서 조회된 단일게시글 데이터 출력하기:",
+              article
+            );
+
+            $("#title").val(article.Title);
+            $("#writer").val(article.RegistUserID);
+            $("#password").val("");
+            $("#contents").html(article.Contents);
+          }
+        );
+      });
+
+      //수정페이지 이동 처리 함수
+      function fnMoveModify() {
+        location.href = "./edit.html?aidx=" + articleIdx;
+      }
+
+      //유효성 검사 처리함수
+      function fnArticleModify() {
+        if ($("#title").val() == "") {
+          alert("제목을 입력해주세요.");
+          $("#title").focus();
+          return false;
+        }
+
+        if ($("#writer").val() == "") {
+          alert("작성자명을 입력해주세요.");
+          $("#writer").focus();
+          return false;
+        }
+
+        if ($("#password").val() == "") {
+          alert("글 암호를 입력해주세요.");
+          $("#password").focus();
+          return false;
+        }
+
+        var article = {
+          ArticleIDX: articleIdx,
+          BoardIDX: 0,
+          ArticlePWD: $("#password").val(),
+          ArticleTypeCode: 0,
+          Title: $("#title").val(),
+          Contents: $("#contents").val(),
+          ViewCount: 0,
+          IsDisplayYN: 1,
+          RegistUserID: $("#writer").val(),
+          RegistDate: "2023-03-31",
+        };
+
+        //게시글 수정 API 호출하기
+        $.post("http://edu.msoftware.co.kr/api/article/update", article).done(
+          function (result) {
+            alert("수정완료");
+            location.href = "./list.html";
+          }
+        );
+      }
+    </script>
+  </body>
+</html>

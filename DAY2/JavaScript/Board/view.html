@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공지사항</title>
+    <link rel="stylesheet" href="css/css.css" />
+  </head>
+  <body>
+    <div class="board_wrap">
+      <div class="board_title">
+        <strong>공지사항</strong>
+        <p>공지사항을 빠르고 정확하게 안내해드립니다.</p>
+      </div>
+      <div class="board_view_wrap">
+        <div class="board_view">
+          <div class="title" id="title"></div>
+          <div class="info">
+            <dl>
+              <dt>번호</dt>
+              <dd id="idx"></dd>
+            </dl>
+            <dl>
+              <dt>글쓴이</dt>
+              <dd id="writer"></dd>
+            </dl>
+            <dl>
+              <dt>작성일</dt>
+              <dd id="registdate"></dd>
+            </dl>
+            <dl>
+              <dt>조회</dt>
+              <dd id="viewcount"></dd>
+            </dl>
+          </div>
+          <div class="cont" id="contents"></div>
+        </div>
+        <div class="bt_wrap">
+          <a href="list.html" class="on">목록</a>
+          <a href="#" onclick="fnMoveModify();">수정</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+    <script>
+      //현재 웹페이지의 주소에서 전달되는 쿼리스트링 키의 값을 추출하는 함수정의
+      function getQueryString(keyName) {
+        var results = new RegExp("[\?&]" + keyName + "=([^&#]*)").exec(
+          window.location.href
+        );
+        return results[1] || 0;
+      }
+
+      //URL에서 전달된 게시글 고유키값 조회하기
+      var articleIdx = getQueryString("aidx");
+
+      $(document).ready(function () {
+        $.get(
+          "http://edu.msoftware.co.kr/api/article?idx=" + articleIdx,
+          function (article) {
+            console.log(
+              "백엔드에서 조회된 단일게시글 데이터 출력하기:",
+              article
+            );
+
+            $("#idx").text(article.ArticleIDX);
+            $("#title").text(article.Title);
+            $("#writer").text(article.RegistUserID);
+            $("#registdate").text(article.RegistDate);
+            $("#viewcount").text(article.ViewCount);
+            $("#contents").html(article.Contents);
+          }
+        );
+      });
+
+      //수정페이지 이동 처리 함수
+      function fnMoveModify() {
+        location.href = "./edit.html?aidx=" + articleIdx;
+      }
+    </script>
+
+    
+  </body>
+</html>

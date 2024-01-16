@@ -1,0 +1,8 @@
+{
+  "name": "React-First",
+  "version": "1.0.0",
+  "description": "최초로 만들어보는 리액트 프로젝트",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {}
+}
